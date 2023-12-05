@@ -1,7 +1,7 @@
 import socket
 
 def ascon_decrypt(key, nonce, associateddata, ciphertext, variant="Ascon-128"):
-    assert variant in ["Ascon-128", "Ascon-128a", "Ascon-80pq"]
+
     if variant in ["Ascon-128", "Ascon-128a"]: assert(len(key) == 16 and len(nonce) == 16 and len(ciphertext) >= 16)
     if variant == "Ascon-80pq": assert(len(key) == 20 and len(nonce) == 16 and len(ciphertext) >= 16)
     S = [0, 0, 0, 0, 0]
@@ -161,25 +161,19 @@ s.listen()
 c, addr = s.accept()
 print("Connection from: ", addr)
 
-data = c.recv(1024)
-key = data.decode()
+key = c.recv(1024)
 print("Recieved key: ", key)
-
-data = c.recv(1024)
-nonce = data.decode()
+nonce = c.recv(1024)
 print("Recieved nonce: ", nonce)
-
-data = c.recv(1024)
-associateddata = data.decode()
+associateddata = c.recv(1024)
 print("Recieved associated data: ", associateddata)
-
-data = c.recv(1024)
-ciphertext = data.decode()
+ciphertext = c.recv(1024)
 print("Recieved ciphertext: ", ciphertext)
 
-receivedplaintext        = ascon_decrypt(key, nonce, associateddata, ciphertext,  "Ascon-128")
+receivedplaintext = ascon_decrypt(key, nonce, associateddata, ciphertext,  "Ascon-128")
 if receivedplaintext == None: print("verification failed!")
+else: print("Verification successful!!!")
 demo_print([("key", key), ("nonce", nonce), ("ass.data", associateddata), ("received", receivedplaintext),])
-
+print("Received plaintext:", receivedplaintext.decode())
 
 
