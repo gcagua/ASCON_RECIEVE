@@ -128,6 +128,10 @@ def zero_bytes(n):
 def to_bytes(l): # where l is a list or bytearray or bytes
     return bytes(bytearray(l))
 
+def bytes_to_hex(b):
+    return b.hex()
+    #return "".join(x.encode('hex') for x in b)
+
 def bytes_to_int(bytes):
     return sum([bi << ((len(bytes) - 1 - i)*8) for i, bi in enumerate(to_bytes(bytes))])
 
